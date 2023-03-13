@@ -70,7 +70,6 @@ const onSubmit = handleSubmit((values) => {
   handleReset();
 })
 const onCancel = handleSubmit((values) => {
-  const currenId = props.editWordObject ? props.editWordObject.id : null
   emit('onCancel');
   handleReset();
 })
