@@ -8,6 +8,7 @@ export function useFetch() {
     const request = async (url: string, options: RequestInit) => {
         const res = await fetch(apiUrl + url, {signal, ...options})
         response.value = await res.json()
+        return response;
     }
 
     return {response, request};

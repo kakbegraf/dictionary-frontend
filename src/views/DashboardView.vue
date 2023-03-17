@@ -9,11 +9,11 @@
 import WordsList from "@/components/WordsList.vue";
 import WordForm from "@/components/WordForm.vue";
 import { useWords } from "@/hooks/words";
-import { wordI } from "@/interfaces";
+import {wordI} from "@/interfaces";
 import { ref } from "vue";
 const { words, createWord, removeWord, updateWord } = useWords();
 const isEdit = ref(false);
-const editWordObject = ref();
+const editWordObject = ref({});
 
 const handleSubmit = (bodyRequest: wordI, id: string | null) => {
   if (isEdit.value && id) {
@@ -31,7 +31,7 @@ const handleEditWord = (word: wordI) => {
 }
 const resetWordObject = () => {
   isEdit.value = false;
-  editWordObject.value = null;
+  editWordObject.value = {};
 }
 
 const handleRemoveWord = (id: string) => {

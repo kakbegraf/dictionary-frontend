@@ -69,7 +69,7 @@ const onSubmit = handleSubmit((values) => {
   emit('onSubmit', values, currenId);
   handleReset();
 })
-const onCancel = handleSubmit((values) => {
+const onCancel = handleSubmit(() => {
   emit('onCancel');
   handleReset();
 })

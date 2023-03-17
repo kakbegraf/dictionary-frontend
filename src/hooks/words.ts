@@ -1,27 +1,29 @@
 import {useFetch} from "@/hooks/fetch";
 import { ref } from "vue";
-import { wordI } from "@/interfaces";
+import {wordI, wordWithIdI} from "@/interfaces";
 
 export function useWords() {
     const loading = ref(false);
-    const {response: words, request} = useFetch();
+    const {response, request} = useFetch();
+    const words = ref();
     const getAllWords = async () => {
         await request('/words', {
             method: 'GET'
-        })
-        loading.value = true
+        });
+        loading.value = true;
+        words.value = response.value;
     }
 
     const createWord =  async (body: wordI) => {
-        await request('/words', {
+        const response = await request('/words', {
             body: JSON.stringify(body),
             method: 'Post',
             headers: {
                 "Content-Type": "application/json",
             },
-        })
+        });
 
-        await getAllWords()
+        words.value.push(response.value);
     }
 
     const updateWord = async (body: wordI, id: string) => {
@@ -31,17 +33,19 @@ export function useWords() {
             headers: {
                 "Content-Type": "application/json",
             },
-        })
+        });
 
-        await getAllWords()
+        const index =  words.value.findIndex((word: wordWithIdI) => word.id === response.value.id);
+
+        words.value[index] = {...response.value};
     }
 
     const removeWord =  async (id: string) => {
         await request(`/words/${id}`, {
             method: 'Delete',
-        })
+        });
 
-        await getAllWords()
+        words.value = words.value.filter((word: wordWithIdI) => word.id !== id);
     }
 
     if(!loading.value) {
