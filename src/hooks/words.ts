@@ -7,45 +7,64 @@ export function useWords() {
     const {response, request} = useFetch();
     const words = ref();
     const getAllWords = async () => {
-        await request('/words', {
-            method: 'GET'
-        });
-        loading.value = true;
-        words.value = response.value;
+        try {
+            await request('/words', {
+                method: 'GET'
+            });
+            loading.value = true;
+            words.value = response.value;
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    const createWord =  async (body: wordI) => {
-        const response = await request('/words', {
-            body: JSON.stringify(body),
-            method: 'Post',
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+    const createWord = async (body: wordI) => {
+        try {
+            const response = await request('/words', {
+                body: JSON.stringify(body),
+                method: 'Post',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-        words.value.push(response.value);
+            words.value.push(response.value);
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
     const updateWord = async (body: wordI, id: string) => {
-        await request(`/words/${id}`, {
-            body: JSON.stringify(body),
-            method: 'Put',
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        try {
+            await request(`/words/${id}`, {
+                body: JSON.stringify(body),
+                method: 'Put',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-        const index =  words.value.findIndex((word: wordWithIdI) => word.id === response.value.id);
+            const index =  words.value.findIndex((word: wordWithIdI) => word.id === response.value.id);
 
-        words.value[index] = {...response.value};
+            words.value[index] = {...response.value};
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
-    const removeWord =  async (id: string) => {
-        await request(`/words/${id}`, {
-            method: 'Delete',
-        });
+    const removeWord = async (id: string) => {
+        try {
+            await request(`/words/${id}`, {
+                method: 'Delete',
+            });
 
-        words.value = words.value.filter((word: wordWithIdI) => word.id !== id);
+            words.value = words.value.filter((word: wordWithIdI) => word.id !== id);
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
     if(!loading.value) {
