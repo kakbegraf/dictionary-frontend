@@ -1,10 +1,12 @@
-import {useFetch} from "@/hooks/fetch";
+import {useFetch} from "@/hooks/useFetch";
 import { ref } from "vue";
 import {wordI, wordWithIdI} from "@/interfaces";
+import {useError} from "@/hooks/useError";
 
 export function useWords() {
     const loading = ref(false);
     const {response, request} = useFetch();
+    const {displayError} = useError();
     const words = ref();
     const getAllWords = async () => {
         try {
@@ -13,8 +15,8 @@ export function useWords() {
             });
             loading.value = true;
             words.value = response.value;
-        } catch (e) {
-            console.log(e)
+        } catch (e: any) {
+            displayError(e.message);
         }
     }
 
@@ -29,8 +31,8 @@ export function useWords() {
             });
 
             words.value.push(response.value);
-        } catch (e) {
-            console.log(e);
+        } catch (e: any) {
+            displayError(e.message);
         }
 
     }
@@ -48,8 +50,8 @@ export function useWords() {
             const index =  words.value.findIndex((word: wordWithIdI) => word.id === response.value.id);
 
             words.value[index] = {...response.value};
-        } catch (e) {
-            console.log(e);
+        } catch (e: any) {
+            displayError(e.message);
         }
 
     }
@@ -61,8 +63,8 @@ export function useWords() {
             });
 
             words.value = words.value.filter((word: wordWithIdI) => word.id !== id);
-        } catch (e) {
-            console.log(e);
+        } catch (e: any) {
+            displayError(e.message);
         }
 
     }

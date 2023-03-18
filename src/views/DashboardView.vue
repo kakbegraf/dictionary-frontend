@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import WordsList from "@/components/WordsList.vue";
 import WordForm from "@/components/WordForm.vue";
-import { useWords } from "@/hooks/words";
+import { useWords } from "@/hooks/useWords";
 import {wordI} from "@/interfaces";
 import { ref } from "vue";
 const { words, createWord, removeWord, updateWord } = useWords();
