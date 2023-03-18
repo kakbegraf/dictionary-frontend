@@ -15,8 +15,8 @@ export function useWords() {
             });
             loading.value = true;
             words.value = response.value;
-        } catch (e: any) {
-            displayError(e.message);
+        } catch (e) {
+            displayError(e);
         }
     }
 
@@ -31,8 +31,8 @@ export function useWords() {
             });
 
             words.value.push(response.value);
-        } catch (e: any) {
-            displayError(e.message);
+        } catch (e) {
+            displayError(e);
         }
 
     }
@@ -50,8 +50,8 @@ export function useWords() {
             const index =  words.value.findIndex((word: wordWithIdI) => word.id === response.value.id);
 
             words.value[index] = {...response.value};
-        } catch (e: any) {
-            displayError(e.message);
+        } catch (e) {
+            displayError(e);
         }
 
     }
@@ -63,8 +63,8 @@ export function useWords() {
             });
 
             words.value = words.value.filter((word: wordWithIdI) => word.id !== id);
-        } catch (e: any) {
-            displayError(e.message);
+        } catch (e) {
+            displayError(e);
         }
 
     }
